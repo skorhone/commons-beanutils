@@ -929,4 +929,44 @@ public class PropertyUtils {
     }
 
 
+    /** These are IBM additions **/
+    static char LRM = '\u200e';
+    static char RLM = '\u200f';
+    static char LRE = '\u202a';
+    static char PDF = '\u202c';
+    static char RLE = '\u202b';
+    static char LRO = '\u202d';
+    static char RLO = '\u202e';
+
+    public static String removeBidiChars(final String inputString) {
+        return removeBidiCharsString(inputString);
+    }
+
+    public static String removeBidiCharsString(final String inputString) {
+        if (inputString == null) {
+            return inputString;
+        }
+        final StringBuilder outputStringBuilder = new StringBuilder(inputString.length());
+        for (int i = 0; i < inputString.length(); ++i) {
+            final char c = inputString.charAt(i);
+            if (c != PropertyUtils.LRM && c != PropertyUtils.LRE && c != PropertyUtils.PDF && c != PropertyUtils.RLM && c != PropertyUtils.RLE && c != PropertyUtils.LRO && c != PropertyUtils.RLO) {
+                outputStringBuilder.append(c);
+            }
+        }
+        return outputStringBuilder.toString();
+    }
+
+    public static String[] removeBidiCharsArray(final String[] inputStringArray) {
+        String[] outputStringArray;
+        try {
+            outputStringArray = new String[inputStringArray.length];
+            for (int i = 0; i < inputStringArray.length; ++i) {
+                outputStringArray[i] = removeBidiCharsString(inputStringArray[i]);
+            }
+        }
+        catch (Exception e) {
+            return inputStringArray;
+        }
+        return outputStringArray;
+    }
 }
